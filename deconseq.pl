@@ -34,10 +34,10 @@ $| = 1; # Do not buffer output
 
 my $man = 0;
 my $help = 0;
-my $threads = 4;
+my $threads = '4';
 my %params = ('help' => \$help, 'h' => \$help, 'man' => \$man, 'threads' => \$threads);
 GetOptions(\%params, 'help|h', 'man', 'no_seq_out',
-	   'threads|t=i', 'keep_tmp_files', 'dbs=s', 'dbs_retain=s',
+	   'threads|t=s', 'keep_tmp_files', 'dbs=s', 'dbs_retain=s',
 	   'f=s', 'out_dir=s', 'i=i', 'c=i', 'group=i',
 	   'id=s', 'version' => sub { print VERSION_INFO."\n"; exit; },
 	   'show_dbs' => sub { print $_." - ".DBS->{$_}->{name}."\n" foreach(sort keys %{(DBS)}); exit; },
@@ -290,7 +290,7 @@ foreach my $db (@dbs) {
     foreach my $refdb (@refdbs) {
         my $tsvfile = $params{out_dir}.$params{id}.'_'.$db.'_'.$refdb.'.tsv';
         my $cmd = PROG_DIR.PROG_NAME . ' bwasw -A -f ' .
-	    (exists $params{threads} ? ' -t ' . $params{threads} : '') .
+	    (exists $threads ? ' -t ' . $threads : '') .
 	    $tsvfile . (exists $params{S} ? ' -S ' . $params{S} : '') .
 	    (exists $params{z} ? ' -z ' . $params{z} : '') . (exists $params{T} ? ' -T ' . $params{T} : '') .
 	    ' '. DB_DIR . $refdb . ' ' . $params{f};
@@ -327,7 +327,7 @@ if(@dbs_retain) {
             foreach my $refdb (@refdbs) {
                 my $tsvfile = $params{out_dir}.$params{id}.'_'.$db.'_'.$refdb.'.tsv';
                 my $cmd = PROG_DIR.PROG_NAME . ' bwasw -A -f ' .
-	    (exists $params{threads} ? ' -t ' . $params{threads} : '') .
+	    (exists $threads ? ' -t ' . $threads : '') .
 	    $tsvfile . (exists $params{S} ? ' -S ' . $params{S} : '') . 
 	    (exists $params{z} ? ' -z ' . $params{z} : '') . (exists $params{T} ? ' -T ' . $params{T} : '') . ' ' .
 	    DB_DIR . $refdb . ' ' . $params{f};
