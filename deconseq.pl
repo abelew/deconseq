@@ -290,8 +290,7 @@ foreach my $db (@dbs) {
     foreach my $refdb (@refdbs) {
         my $tsvfile = $params{out_dir}.$params{id}.'_'.$db.'_'.$refdb.'.tsv';
         my $cmd = PROG_DIR.PROG_NAME . ' bwasw -A -f ' .
-	    (exists $threads ? ' -t ' . $threads : '') .
-	    $tsvfile . (exists $params{S} ? ' -S ' . $params{S} : '') .
+	    ' -t ' . $threads . $tsvfile . (exists $params{S} ? ' -S ' . $params{S} : '') .
 	    (exists $params{z} ? ' -z ' . $params{z} : '') . (exists $params{T} ? ' -T ' . $params{T} : '') .
 	    ' '. DB_DIR . $refdb . ' ' . $params{f};
         unless(-e $tsvfile) {
@@ -327,10 +326,9 @@ if(@dbs_retain) {
             foreach my $refdb (@refdbs) {
                 my $tsvfile = $params{out_dir}.$params{id}.'_'.$db.'_'.$refdb.'.tsv';
                 my $cmd = PROG_DIR.PROG_NAME . ' bwasw -A -f ' .
-	    (exists $threads ? ' -t ' . $threads : '') .
-	    $tsvfile . (exists $params{S} ? ' -S ' . $params{S} : '') . 
-	    (exists $params{z} ? ' -z ' . $params{z} : '') . (exists $params{T} ? ' -T ' . $params{T} : '') . ' ' .
-	    DB_DIR . $refdb . ' ' . $params{f};
+		    ' -t ' . $threads . (exists $params{S} ? ' -S ' . $params{S} : '') . 
+		    (exists $params{z} ? ' -z ' . $params{z} : '') . (exists $params{T} ? ' -T ' . $params{T} : '') . ' ' .
+		    DB_DIR . $refdb . ' ' . $params{f};
 		unless(-e $tsvfile) {
                     open(TSV, ">$tsvfile") or &printError("Could not create tsv file $tsvfile: $!");
                     close(TSV);
